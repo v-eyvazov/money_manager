@@ -79,12 +79,16 @@ WSGI_APPLICATION = 'money_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'money_manager',
+        'USER': os.environ.get('MYSQL_USERNAME'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '3306'
     },
     'mongodb': {
         'ENGINE': 'djongo',
-        'NAME': 'money-manager',
+        'NAME': 'money_manager',
     }
 }
 
