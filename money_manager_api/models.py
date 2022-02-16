@@ -32,3 +32,15 @@ class Income(models.Model):
 
     def __str__(self):
         return f"{self.person.user_name} {self.income}"
+
+
+class Spending(models.Model):
+    person = models.ForeignKey(Person, on_delete=PROTECT)  # One to Many
+    spending = models.CharField(max_length=50)
+    removed = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Spending"
+
+    def __str__(self):
+        return f"{self.person} {self.spending}"

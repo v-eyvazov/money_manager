@@ -4,8 +4,8 @@ from rest_framework.response import Response
 # Create your views here.
 
 
-from money_manager_api.models import Wallet, Person, Income
-from money_manager_api.serializers import WalletSerializer, IncomeSerializer
+from money_manager_api.models import Wallet, Person, Income, Spending
+from money_manager_api.serializers import WalletSerializer, IncomeSerializer, SpendingSerializer
 
 
 # {
@@ -103,4 +103,42 @@ def remove_income(request):
                                 income=request.data['income-name'])
     income.removed = True
     income.save()
+    return Response({"operation": "success"})
+
+
+# {
+#     "user": <username>
+# }
+@api_view(['POST'])
+def get_spending(request):
+    spending = Spending.objects.filter(person__user_name=request.data['user'], removed=False)
+    if spending.exists():
+        spending_serializer = SpendingSerializer(spending, many=True)
+        return Response(spending_serializer.data)
+    else:
+        return Response({"details": "User has no income"})
+
+
+# {
+#     "user":<username>,
+#     "spending-name":<spending-name>
+# }
+@api_view(['POST'])
+def create_spending(request):
+    new_spending = Spending(person_id=Person.objects.get(user_name=request.data['user']).pk,
+                            spending=request.data['spending-name'])
+    new_spending.save()
+    return Response({"operation": "success"})
+
+
+# {
+#     "user":<username>,
+#     "spending-name":<spending-name>
+# }
+@api_view(['POST'])
+def remove_spending(request):
+    spending = Spending.objects.get(person_id=Person.objects.get(user_name=request.data['user']).pk,
+                                    spending=request.data['spending-name'])
+    spending.removed = True
+    spending.save()
     return Response({"operation": "success"})

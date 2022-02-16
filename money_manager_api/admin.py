@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import display
 
-from money_manager_api.models import Person, Wallet, Income
+from money_manager_api.models import Person, Wallet, Income, Spending
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -28,6 +28,16 @@ class IncomeAdmin(admin.ModelAdmin):
         return obj.person.user_name
 
 
+class SpendingAdmin(admin.ModelAdmin):
+    list_display = ('get_person', 'spending',)
+    list_filter = ('person__user_name', 'spending')
+
+    @display(ordering='spending__person', description='Person')
+    def get_person(self, obj):
+        return obj.person.user_name
+
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Wallet, WalletAdmin)
 admin.site.register(Income, IncomeAdmin)
+admin.site.register(Spending, SpendingAdmin)
