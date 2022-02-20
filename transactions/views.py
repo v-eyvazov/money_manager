@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from bson.objectid import ObjectId
 
 # Create your views here.
-from money_manager_api.models import Person, Wallet
-from transactions_mongo.models import IncomeTransaction, SpendingTransaction
-from transactions_mongo.serializers import IncomeTransactionSerializer, SpendingTransactionSerializer
+from core.models import Person, Wallet
+from transactions.models import IncomeTransaction, SpendingTransaction
+from transactions.serializers import IncomeTransactionSerializer, SpendingTransactionSerializer
 
 
 # {

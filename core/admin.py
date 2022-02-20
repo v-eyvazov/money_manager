@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import display
 
-from money_manager_api.models import Person, Wallet, Income, Spending
+from core.models import Person, Wallet, Income, Spending
 
 
 class PersonAdmin(admin.ModelAdmin):

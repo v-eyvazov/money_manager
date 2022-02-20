@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 
-from money_manager_api import views
+from core import views
 
 urlpatterns = [
     path('wallets', views.get_wallets, name="wallets"),
@@ -18,5 +18,5 @@ urlpatterns = [
 
 
 
-    path('transactions/', include('transactions_mongo.urls'))
+    path('transactions/', include('transactions.urls'))
 ]

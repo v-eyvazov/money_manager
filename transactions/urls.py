@@ -1,5 +1,5 @@
 from django.urls import path
-from transactions_mongo import views
+from transactions import views
 
 urlpatterns = [
     path('income-transactions', views.get_income_transactions, name="income-transactions"),

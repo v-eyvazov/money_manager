@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'money_manager_api',
-    'transactions_mongo',
+    'core',
+    'transactions',
 
     'rest_framework',
     'django.contrib.admin',

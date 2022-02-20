@@ -4,8 +4,8 @@ from rest_framework.response import Response
 # Create your views here.
 
 
-from money_manager_api.models import Wallet, Person, Income, Spending
-from money_manager_api.serializers import WalletSerializer, IncomeSerializer, SpendingSerializer
+from core.models import Wallet, Person, Income, Spending
+from core.serializers import WalletSerializer, IncomeSerializer, SpendingSerializer
 
 
 # {
