@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from bson.objectid import ObjectId
 
 # Create your views here.
-from core.models import Person, Wallet
+from user_account.models import CustomUser
+from core.models import Wallet
 from transactions.models import IncomeTransaction, SpendingTransaction
 from transactions.serializers import IncomeTransactionSerializer, SpendingTransactionSerializer
 
@@ -26,7 +27,7 @@ def get_income_transactions(request):
 # }
 @api_view(['POST'])
 def create_income_transaction(request):
-    wallet = Wallet.objects.get(person_id=Person.objects.get(user_name=request.data['user']).pk,
+    wallet = Wallet.objects.get(user_id=CustomUser.objects.get(username=request.data['user']).pk,
                                 wallet=request.data['to-wallet'])
     wallet.amount = request.data['amount'] + wallet.amount
     wallet.save()
@@ -45,7 +46,7 @@ def create_income_transaction(request):
 @api_view(['POST'])
 def remove_income_transaction(request):
     transaction = IncomeTransaction.objects.using("mongodb").get(pk=ObjectId(request.data['_id']))
-    wallet = Wallet.objects.using("default").get(wallet=transaction.to_wallet, person__user_name=transaction.user)
+    wallet = Wallet.objects.using("default").get(wallet=transaction.to_wallet, user__username=transaction.user)
 
     wallet.amount = wallet.amount - transaction.amount
     transaction.removed = True
@@ -73,7 +74,7 @@ def get_spending_transactions(request):
 # }
 @api_view(['POST'])
 def create_spending_transaction(request):
-    from_wallet = Wallet.objects.get(person_id=Person.objects.get(user_name=request.data['user']).pk,
+    from_wallet = Wallet.objects.get(user_id=CustomUser.objects.get(username=request.data['user']).pk,
                                      wallet=request.data['from-wallet'])
     from_wallet.amount = from_wallet.amount - request.data['amount']
     from_wallet.save()
@@ -92,7 +93,7 @@ def create_spending_transaction(request):
 @api_view(['POST'])
 def remove_spending_transaction(request):
     transaction = SpendingTransaction.objects.using("mongodb").get(pk=ObjectId(request.data['_id']))
-    wallet = Wallet.objects.using("default").get(wallet=transaction.from_wallet, person__user_name=transaction.user)
+    wallet = Wallet.objects.using("default").get(wallet=transaction.from_wallet, user__username=transaction.user)
 
     wallet.amount = wallet.amount + transaction.amount
     transaction.removed = True
