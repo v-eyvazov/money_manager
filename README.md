@@ -6,5 +6,9 @@ Technologies used:
 1) Django Rest Framework.
 2) Django Rest Session Authentication.
 
+Databases used:
+1) MySQL
+2) MongoDB
+
 
 Session valid by default 15 days.
